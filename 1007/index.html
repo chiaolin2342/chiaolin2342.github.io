@@ -1,0 +1,63 @@
+
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>表格 × 圖片練習｜Starter</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>表格 × 圖片練習</h1>
+  
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>分類</th>
+          <th>縮圖</th>
+          <th>標題與描述</th>
+          <th>拍攝日期</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- TODO: 將第一、二列做成同一個「城市風景」分類（示範一次 rowspan） -->
+        <tr>
+          <td rowspan="2">風景</td>
+          <td>
+            <img src="unnamed (1).jpg" alt="海岸線與夕陽">
+            <div class="caption">sea</div>
+          </td>
+          <td><strong>濱海兜風</strong><br>金色陽光灑在海面，開車馳騁於濱海公路</td>
+          <td>2025-09-01</td>
+        </tr>
+        <tr>
+          <td>
+            <img src="unnamed (2).jpg" alt="夜晚燈光點綴的街道與咖啡店">
+            <div class="caption">sand </div>
+          </td>
+          <td><strong>曠野漫遊</strong><br>沙漠景色別有風情</td>
+          <td>2025-09-02</td>
+        </tr>
+
+        <!-- TODO: 示範一次 colspan，讓「海邊旅行」橫跨兩欄作為小節標題 -->
+        <tr>
+          <td colspan="4"><strong>山間漫步</strong>
+        <tr>
+          <td>自然風景</td>
+          <td>
+            <img src="unnamed.jpg" alt="山巒溪流大自然">
+            <div class="caption">說走就走的自由，和在日落時分，被群山溫柔環抱的寧靜。</div>
+          </td>
+          <td><strong>黎明山景</strong><br>群山在清晨陽光下閃閃發光</td>
+          <td>2025-09-03</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  
+  </div>
+</body>
+</html>
