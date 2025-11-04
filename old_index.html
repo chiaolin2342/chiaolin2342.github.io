@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        body {
+            background: linear-gradient(135deg, #f8e1ff 0%, #aee9f9 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Press Start 2P', 'Comic Sans MS', 'Segoe UI', cursive, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .game-title {
+            font-size: 2.2rem;
+            color: #ff7eb9;
+            text-shadow: 2px 2px 8px #fff0f6, 0 0 10px #aee9f9;
+            margin-bottom: 0.5em;
+            font-family: 'Press Start 2P', cursive, sans-serif;
+        }
+        .cute-cube {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(145deg, #fff0f6 60%, #ffb6b9 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 24px #ffb6b9aa, 0 1.5px 0 #fff inset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1em auto;
+            position: relative;
+            animation: float 2.5s ease-in-out infinite;
+        }
+        .cute-face {
+            font-size: 2.5rem;
+            color: #ff7eb9;
+            text-align: center;
+            user-select: none;
+            font-family: 'Press Start 2P', cursive, sans-serif;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .start-btn {
+            background: linear-gradient(90deg, #ffb6b9 0%, #f8e1ff 100%);
+            border: none;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 1.1rem;
+            padding: 0.7em 2em;
+            margin-top: 1.5em;
+            box-shadow: 0 4px 16px #ffb6b9aa;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            font-family: 'Press Start 2P', cursive, sans-serif;
+        }
+        .start-btn:hover {
+            background: linear-gradient(90deg, #aee9f9 0%, #ffb6b9 100%);
+            transform: scale(1.08);
+        }
+    </style>
+</head>
+<body>
+    <div class="game-title">MY website</div>
+    <div class="cute-cube">
+        <div class="cute-face">♡</div>
+    </div>
+    <button class="start-btn" onclick="alert('遊戲即將開始，敬請期待！')">GAME START</button>
+</body>
+</html>
