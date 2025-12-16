@@ -4,85 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>互動式作品集展示</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-    
     <style>
-        /* --- 1. 全局設定 & 風格統一 --- */
+        /* --- 1. 全局設定 --- */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: "Helvetica Neue", Arial, sans-serif;
         }
 
         body {
-            /* 背景改為配合 Footer 的淺粉色系 */
-            background-color: #fffafc; 
-            color: #555; /* 文字改為深灰，比較好讀 */
-            font-family: 'Noto Sans TC', sans-serif; /* 預設字體 */
-            
-            /* 關鍵修正：讓頁面可以捲動，並確保 Footer 在底部 */
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* 主內容區塊，設定 flex: 1 讓它自動撐開空間 */
-        main {
-            flex: 1;
+            background-color: #1a1a1a; /* 深色背景，看起來比較高級 */
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden; /* 防止捲軸出現 */
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px 0; /* 上下留點呼吸空間 */
         }
 
         /* --- 2. 主要佈局 (Grid) --- */
         .dashboard-container {
             display: grid;
-            grid-template-columns: 1fr 2fr 1fr;
+            grid-template-columns: 1fr 2fr 1fr; /* 左:1 中:2 右:1 */
             width: 90%;
-            max-width: 1200px;
-            /* 移除固定的 height: 80vh，改為 min-height 以免內容太多爆掉 */
-            min-height: 600px; 
-            gap: 30px;
+            max-width: 1400px;
+            height: 80vh;
+            gap: 40px;
             align-items: center;
         }
 
-        /* --- 3. 左側：選單區 (改為可愛風格) --- */
+        /* --- 3. 左側：選單區 --- */
         .menu-col {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            border-right: 2px dashed #ffb6b9; /* 改為粉紅虛線 */
+            border-right: 1px solid #333;
             padding-right: 20px;
         }
 
         .menu-item {
-            padding: 15px;
-            margin: 8px 0;
+            padding: 20px;
+            margin: 10px 0;
             cursor: pointer;
-            border-radius: 12px;
+            border-radius: 8px;
             transition: all 0.3s ease;
+            opacity: 0.5;
+            font-size: 1.2rem;
             font-weight: bold;
             display: flex;
             align-items: center;
-            color: #888;
         }
 
-        /* 選單懸停效果 */
         .menu-item:hover, .menu-item.active {
-            background-color: #fff0f6; /* 淺粉底色 */
-            color: #ff7eb9; /* 粉紅字 */
-            transform: translateX(5px);
-            box-shadow: 2px 2px 0px #ffb6b9; /* 像素風陰影 */
-            border: 1px solid #ffb6b9;
+            background-color: #333;
+            opacity: 1;
+            transform: translateX(10px); /* 往右移一點 */
+            color: #4facfe; /* 亮藍色 */
         }
 
         .menu-item::before {
-            content: '♥'; /* 改成愛心 */
+            content: '';
             display: inline-block;
-            margin-right: 10px;
-            font-size: 12px;
-            color: #aee9f9;
+            width: 10px;
+            height: 10px;
+            background-color: #4facfe;
+            border-radius: 50%;
+            margin-right: 15px;
             opacity: 0;
             transition: opacity 0.3s;
         }
@@ -91,45 +79,60 @@
             opacity: 1;
         }
 
-        /* --- 4. 中間：電腦螢幕展示區 (配色調整) --- */
+        /* --- 4. 中間：電腦螢幕展示區 (純CSS畫的螢幕) --- */
         .monitor-col {
             display: flex;
             justify-content: center;
             align-items: center;
+            perspective: 1000px; /* 增加一點立體感 */
         }
 
         .monitor-frame {
             position: relative;
             width: 100%;
-            padding-top: 56.25%;
-            background: #fff; /* 改為白框 */
-            border: 8px solid #aee9f9; /* 粉藍邊框 */
+            padding-top: 56.25%; /* 16:9 比例 */
+            background: #222;
+            border: 12px solid #444; /* 螢幕邊框 */
             border-radius: 12px;
-            box-shadow: 8px 8px 0px #ffb6b9aa; /* 卡通式陰影 */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
+        /* 螢幕底座 */
         .monitor-frame::after {
             content: '';
             position: absolute;
-            bottom: -30px;
+            bottom: -40px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 20px;
-            background: #aee9f9;
+            width: 120px;
+            height: 30px;
+            background: #333;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
             z-index: -1;
         }
+        .monitor-frame::before {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 10px;
+            background: #444;
+            border-radius: 20px;
+            z-index: -1;
+        }
 
+        /* 螢幕畫面內容 */
         .screen {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #f0f0f0;
-            overflow: hidden;
+            background: #000;
+            overflow: hidden; /* 超出範圍切掉 */
             border-radius: 4px;
         }
 
@@ -137,34 +140,31 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.4s ease; /* 圖片切換動畫 */
         }
 
-        /* --- 5. 右側：資訊區 (整合像素字體) --- */
+        /* --- 5. 右側：資訊區 --- */
         .info-col {
             padding-left: 20px;
-            border-left: 2px dashed #aee9f9; /* 改為粉藍虛線 */
+            border-left: 1px solid #333;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
         .info-title {
-            font-family: 'Press Start 2P', cursive; /* 使用像素字體 */
-            font-size: 1.5rem; /* 像素字體通常比較大，稍微縮小一點 */
+            font-size: 2.5rem;
             margin-bottom: 20px;
-            line-height: 1.4;
-            background: linear-gradient(90deg, #ff7eb9 0%, #aee9f9 100%);
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            -webkit-text-fill-color: transparent; /* 漸層文字 */
         }
 
         .info-desc {
-            line-height: 1.8;
-            color: #666;
+            line-height: 1.6;
+            color: #ccc;
             margin-bottom: 30px;
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
 
         .tech-stack {
@@ -174,227 +174,84 @@
         }
 
         .tech-tag {
-            padding: 6px 15px;
-            background: #fff;
-            border-radius: 20px; /* 膠囊狀 */
+            padding: 5px 12px;
+            background: #333;
+            border-radius: 20px;
             font-size: 0.8rem;
-            color: #ff7eb9;
-            border: 2px solid #ffb6b9;
-            font-weight: bold;
-            box-shadow: 2px 2px 0px #ffb6b9aa;
+            color: #fff;
+            border: 1px solid #555;
         }
 
-        /* RWD: 手機版調整 */
-        @media (max-width: 900px) {
-            .dashboard-container {
-                grid-template-columns: 1fr; /* 變成單欄 */
-                height: auto;
-                padding-bottom: 20px;
-            }
-            .menu-col, .info-col {
-                border: none;
-                padding: 0;
-                text-align: center;
-            }
-            .menu-item {
-                justify-content: center;
-            }
-            .tech-stack {
-                justify-content: center;
-            }
-        }
-
-        /* --- 6. Footer 樣式 (你的原始代碼，微調以配合 RWD) --- */
-        .site-footer {
-            background: linear-gradient(90deg, #f8e1ff 0%, #aee9f9 100%);
-            font-family: 'Press Start 2P', 'Comic Sans MS', cursive, sans-serif;
-            padding: 2em 0 1em 0;
-            margin-top: auto; /* 確保推到最下面 */
-            box-shadow: 0 -4px 24px #ffb6b9aa;
-            width: 100%;
-        }
-        .footer-content {
-            max-width: 900px;
-            margin: 0 auto;
-            display: flex;
-            align-items: stretch;
-            justify-content: center;
-        }
-        .footer-contact, .footer-links {
-            flex: 1 1 0;
-            padding: 0 2em;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .footer-contact h3, .footer-links h3 {
-            color: #ff7eb9;
-            font-size: 1.2rem;
-            margin-bottom: 1em;
-            letter-spacing: 2px;
-            text-shadow: 1px 1px 6px #fff0f6;
-            font-family: 'Press Start 2P', cursive, sans-serif;
-        }
-        .footer-contact p, .footer-contact a {
-            color: #6c6c6c;
-            font-size: 0.9rem;
-            margin: 0.4em 0;
-            text-decoration: none;
-            font-family: 'Noto Sans TC', sans-serif; /* 中文內容用圓體或黑體比較好讀 */
-        }
-        .footer-contact a:hover {
-            color: #ff7eb9;
-            text-decoration: underline;
-        }
-        .footer-divider {
-            width: 2px;
-            background: linear-gradient(180deg, #ffb6b9 0%, #aee9f9 100%);
-            margin: 0 1em;
-            border-radius: 2px;
-        }
-        .footer-links {
-            align-items: center;
-        }
-        .social-icons {
-            display: flex;
-            gap: 1.2em;
-            margin-top: 0.5em;
-        }
-        .social-icons a img {
-            width: 36px;
-            height: 36px;
-            filter: drop-shadow(0 2px 8px #ffb6b9aa);
-            transition: transform 0.2s, filter 0.2s;
-            background: #fff0f6;
-            border-radius: 10px;
-            padding: 4px;
-        }
-        .social-icons a:hover img {
-            transform: scale(1.15) rotate(-8deg);
-            filter: drop-shadow(0 4px 16px #aee9f9aa);
-            background: #ffb6b9;
-        }
-        
-        @media (max-width: 700px) {
-            .footer-content {
-                flex-direction: column;
-                align-items: center;
-            }
-            .footer-divider {
-                width: 80%;
-                height: 2px;
-                margin: 1em 0;
-                background: linear-gradient(90deg, #ffb6b9 0%, #aee9f9 100%);
-            }
-            .footer-contact, .footer-links {
-                padding: 0.5em 0;
-                align-items: center;
-                text-align: center;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <main>
-        <div class="dashboard-container">
-            
-            <div class="menu-col">
-                <div class="menu-item active" data-id="1">Project A. 旅遊網站</div>
-                <div class="menu-item" data-id="2">Project B. 個人履歷</div>
-                <div class="menu-item" data-id="3">Project C. 購物商城</div>
-                <div class="menu-item" data-id="4">Project D. 後台管理</div>
-            </div>
-
-            <div class="monitor-col">
-                <div class="monitor-frame">
-                    <div class="screen">
-                        <img id="preview-img" src="https://placehold.co/800x450/fff0f6/ff7eb9?text=Project+A" alt="Website Preview">
-                    </div>
-                </div>
-            </div>
-
-            <div class="info-col">
-                <h1 id="project-title" class="info-title">旅遊網站</h1>
-                <p id="project-desc" class="info-desc">
-                    這是本學期的期中作業，主題是介紹台灣的旅遊景點。運用了 Flexbox 進行響應式排版，並加入了簡單的輪播圖功能。
-                </p>
-                <div id="project-tags" class="tech-stack">
-                    <span class="tech-tag">HTML5</span>
-                    <span class="tech-tag">CSS3</span>
-                    <span class="tech-tag">JavaScript</span>
-                </div>
-            </div>
-
+    <div class="dashboard-container">
+        
+        <div class="menu-col">
+            <div class="menu-item active" data-id="1">Project A. 旅遊網站</div>
+            <div class="menu-item" data-id="2">Project B. 個人履歷</div>
+            <div class="menu-item" data-id="3">Project C. 購物商城</div>
+            <div class="menu-item" data-id="4">Project D. 後台管理</div>
         </div>
-    </main>
 
-    <footer class="site-footer">
-        <div class="footer-content">
-            <div class="footer-contact">
-                <h3>Contact</h3>
-                <p>電話: 09123456789</p>
-                <p>Gmail: <a href="mailto:jolin541204@gmail.com">jolin541204@gmail.com</a></p>
-                <p>就讀系所<br>國立台北教育大學數位設計系</p>
-            </div>
-            <div class="footer-divider"></div>
-            <div class="footer-links">
-                <h3>Link</h3>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook">
-                        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook" />
-                    </a>
-                    <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram">
-                        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" />
-                    </a>
-                    <a href="https://www.youtube.com/" target="_blank" aria-label="YouTube">
-                        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube" />
-                    </a>
+        <div class="monitor-col">
+            <div class="monitor-frame">
+                <div class="screen">
+                    <img id="preview-img" src="https://placehold.co/800x450/222/4facfe?text=Project+A+Preview" alt="Website Preview">
                 </div>
             </div>
         </div>
-    </footer>
+
+        <div class="info-col">
+            <h1 id="project-title" class="info-title">旅遊網站</h1>
+            <p id="project-desc" class="info-desc">
+                這是本學期的期中作業，主題是介紹台灣的旅遊景點。運用了 Flexbox 進行響應式排版，並加入了簡單的輪播圖功能。
+            </p>
+            <div id="project-tags" class="tech-stack">
+                <span class="tech-tag">HTML5</span>
+                <span class="tech-tag">CSS3</span>
+                <span class="tech-tag">JavaScript</span>
+            </div>
+        </div>
+
+    </div>
 
     <script>
-        // --- 像素風修正：英文用像素字體，中文不變 ---
-        document.querySelectorAll('.footer-contact h3, .footer-links h3, .footer-links h3, .footer-links a[aria-label]').forEach(el => {
-            if (/^[A-Za-z\s]+$/.test(el.textContent.trim())) {
-                el.setAttribute('lang', 'en');
-            }
-        });
-
-        // --- 互動邏輯 (圖片連結已換成配合淺色的測試圖) ---
+        // --- 資料庫 (你要修改這裡的內容和圖片連結) ---
         const projects = [
             {
                 id: 1,
-                title: "title",
-                desc: "desc",
+                title: "旅遊網站",
+                desc: "這是本學期的期中作業，主題是介紹台灣的旅遊景點。運用了 Flexbox 進行響應式排版，並加入了簡單的輪播圖功能。",
                 tags: ["HTML5", "CSS3", "JavaScript"],
-                img: "https://placehold.co/800x450/fff0f6/ff7eb9?text=Travel+Website" 
+                // 這裡換成你的截圖檔案路徑，例如 'images/p1.jpg'
+                img: "https://placehold.co/800x450/222/4facfe?text=Travel+Website" 
             },
             {
                 id: 2,
-                title: "title",
-                desc: "esc",
+                title: "個人履歷",
+                desc: "採用極簡風格設計的線上履歷，重點在於字體排版與閱讀體驗。使用了 Grid 系統來規劃版面。",
                 tags: ["UI/UX", "Typography", "CSS Grid"],
-                img: "https://placehold.co/800x450/e0f7fa/4dd0e1?text=Resume+Page"
+                img: "https://placehold.co/800x450/333/00f2fe?text=Resume+Page"
             },
             {
                 id: 3,
-                title: "title",
-                desc: "esc",
+                title: "購物商城",
+                desc: "模擬電商的首頁設計，包含商品卡片展示與購物車互動。挑戰了較複雜的 DOM 操作。",
                 tags: ["DOM操作", "SCSS", "RWD"],
-                img: "https://placehold.co/800x450/fff8e1/ffb74d?text=E-Commerce"
+                img: "https://placehold.co/800x450/444/ff9a9e?text=E-Commerce"
             },
             {
                 id: 4,
-                title: "title",
-                desc: "一個儀表板介面，展示數據圖表與表格排版。練習了 CSS Variable 的應用。",
+                title: "後台管理",
+                desc: "一個深色模式的儀表板介面，展示數據圖表與表格排版。練習了 CSS Variable 的應用。",
                 tags: ["Dashboard", "Chart.js", "Dark Mode"],
-                img: "https://placehold.co/800x450/f3e5f5/ba68c8?text=Admin+Dashboard"
+                img: "https://placehold.co/800x450/111/a18cd1?text=Admin+Dashboard"
             }
         ];
 
+        // --- 程式邏輯 ---
         const menuItems = document.querySelectorAll('.menu-item');
         const previewImg = document.getElementById('preview-img');
         const titleEl = document.getElementById('project-title');
@@ -403,19 +260,28 @@
 
         menuItems.forEach((item, index) => {
             item.addEventListener('mouseover', () => {
+                // 1. 移除所有人的 active 樣式
                 menuItems.forEach(i => i.classList.remove('active'));
+                // 2. 幫自己加上 active
                 item.classList.add('active');
 
+                // 3. 抓取對應的資料 (index 對應 projects 陣列)
                 const data = projects[index];
 
+                // 4. 更新畫面
+                // 先讓圖片透明一點製造切換感
                 previewImg.style.opacity = 0.5;
 
                 setTimeout(() => {
+                    // 換圖片
                     previewImg.src = data.img;
                     previewImg.style.opacity = 1;
+                    
+                    // 換文字
                     titleEl.innerText = data.title;
                     descEl.innerText = data.desc;
 
+                    // 換標籤 (先清空再重產)
                     tagsEl.innerHTML = ''; 
                     data.tags.forEach(tag => {
                         const span = document.createElement('span');
@@ -423,7 +289,7 @@
                         span.innerText = tag;
                         tagsEl.appendChild(span);
                     });
-                }, 150);
+                }, 150); // 稍微延遲一點點讓動畫順暢
             });
         });
     </script>
