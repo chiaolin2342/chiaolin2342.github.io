@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的網頁作品集</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         /* --- 基礎設定 --- */
@@ -18,10 +19,10 @@
             min-height: 100vh;
         }
 
-        /* --- 主內容區塊 (Dashboard) --- */
+        /* --- 主內容區塊 --- */
         main {
             display: flex;
-            flex-direction: column; /* 改為直向排列，讓心得區塊可以在下面 */
+            flex-direction: column;
             align-items: center;
             padding: 40px 20px;
             flex: 1;
@@ -32,10 +33,10 @@
             grid-template-columns: 1fr 2fr 1fr;
             width: 100%;
             max-width: 1200px;
-            min-height: 600px;
+            min-height: 550px; 
             gap: 30px;
             align-items: center;
-            margin-bottom: 60px; /* 這裡留空間給下面的心得區塊 */
+            margin-bottom: 60px;
         }
 
         /* --- 左側：選單列表 --- */
@@ -71,12 +72,13 @@
         }
         .menu-item:hover::before, .menu-item.active::before { opacity: 1; }
 
-        /* --- 中間：電腦螢幕 --- */
+        /* --- 中間：電腦螢幕 (新增懸停提示) --- */
         .monitor-col { display: flex; justify-content: center; align-items: center; }
         .monitor-frame {
             position: relative; width: 100%; padding-top: 56.25%;
             background: #ffffff; border: 8px solid #aee9f9; border-radius: 12px;
             box-shadow: 8px 8px 0px #ffb6b9aa;
+            overflow: hidden; /* 確保遮罩不跑出去 */
         }
         .monitor-frame::after {
             content: ''; position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%);
@@ -88,76 +90,84 @@
         }
         .screen img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.4s ease; }
 
+        /* 新增：圖片懸停時的遮罩與提示 */
+        .screen-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); /* 半透明黑底 */
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s ease;
+            cursor: pointer;
+            color: white; font-weight: bold; font-size: 1.2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .monitor-frame:hover .screen-overlay { opacity: 1; }
+        .screen-overlay i { margin-right: 8px; }
+
+
         /* --- 右側：作品資訊 --- */
         .info-col {
             padding-left: 20px;
             border-left: 2px dashed #aee9f9;
             display: flex; flex-direction: column; justify-content: center;
+            min-height: 300px; 
+            align-items: flex-start; /* 讓按鈕靠左對齊 */
         }
+        
         .info-title {
-            font-family: 'Press Start 2P', cursive; font-size: 1.4rem; margin-bottom: 20px; line-height: 1.5;
+            font-family: "Microsoft JhengHei", "Heiti TC", sans-serif;
+            font-weight: 700; font-size: 2rem; line-height: 1.4; margin-bottom: 20px;
             background: linear-gradient(90deg, #ff7eb9 0%, #aee9f9 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             filter: drop-shadow(2px 2px 0px rgba(255,182,185,0.5));
         }
-        .info-desc { line-height: 1.8; color: #666; margin-bottom: 30px; font-size: 1rem; text-align: justify; }
-        .tech-stack { display: flex; gap: 10px; flex-wrap: wrap; }
-        .tech-tag {
-            padding: 6px 15px; background: #fff; border-radius: 50px; font-size: 0.85rem;
-            color: #ff7eb9; border: 2px solid #ffb6b9; font-weight: bold; box-shadow: 2px 2px 0px #ffb6b9aa;
+
+        .info-desc {
+            font-size: 1rem; line-height: 1.8; color: #666; text-align: justify;
+            background-color: #fff; padding: 15px; border-radius: 10px;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 25px; /* 留空間給按鈕 */
         }
 
-        /* --- 新增：總心得區塊 (Reflection Section) --- */
+        /* --- 新增：前往網站按鈕 --- */
+        .visit-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(90deg, #ff7eb9 0%, #aee9f9 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px; /* 膠囊形狀 */
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 4px 4px 0px #ffb6b9aa; /* 像素陰影 */
+            transition: all 0.2s ease;
+        }
+        .visit-btn:hover {
+            transform: translate(2px, 2px); /* 按下去的效果 */
+            box-shadow: 2px 2px 0px #ffb6b9aa;
+        }
+        .visit-btn i { font-size: 0.9rem; }
+
+        /* --- 心得區塊 --- */
         .reflection-section {
-            width: 100%;
-            max-width: 1000px; /* 比上面稍微窄一點，方便閱讀 */
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 20px;
-            border: 4px dashed #ffb6b9; /* 粉紅虛線框 */
-            box-shadow: 8px 8px 0px #aee9f9; /* 藍色陰影，跟上面的配色交錯 */
-            position: relative;
+            width: 100%; max-width: 1000px; background-color: #fff; padding: 40px;
+            border-radius: 20px; border: 4px dashed #ffb6b9; box-shadow: 8px 8px 0px #aee9f9; position: relative;
         }
-
-        /* 像日記一樣的標題 */
         .reflection-title {
-            font-family: 'Press Start 2P', cursive;
-            color: #ff7eb9;
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            text-align: center;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 0px #fff0f6;
+            font-family: 'Press Start 2P', cursive; color: #ff7eb9; font-size: 1.5rem;
+            margin-bottom: 25px; text-align: center; text-transform: uppercase; text-shadow: 2px 2px 0px #fff0f6;
         }
-
-        /* 像信紙一樣的內文 */
-        .reflection-content {
-            font-size: 1.1rem;
-            line-height: 2; /* 行高拉大，比較好讀 */
-            color: #666;
-            text-align: justify;
-        }
-
-        /* 裝飾用的小圖案 (右上角) */
+        .reflection-content { font-size: 1.1rem; line-height: 2; color: #666; text-align: justify; }
         .reflection-section::before {
-            content: '✨';
-            position: absolute;
-            top: -20px;
-            right: -10px;
-            font-size: 40px;
-            animation: float 3s ease-in-out infinite;
+            content: '✨'; position: absolute; top: -20px; right: -10px; font-size: 40px; animation: float 3s ease-in-out infinite;
         }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         /* --- RWD --- */
         @media (max-width: 900px) {
             .dashboard-container { grid-template-columns: 1fr; gap: 40px; min-height: auto; }
             .menu-col, .info-col { border: none; padding: 0; }
-            .info-title, .info-desc, .tech-stack { text-align: center; justify-content: center; }
+            .info-title, .info-desc { text-align: center; }
+            .info-col { align-items: center; } /* 手機版讓按鈕置中 */
             .reflection-section { width: 95%; padding: 25px; }
         }
 
@@ -165,10 +175,7 @@
         .site-footer {
             background: linear-gradient(90deg, #f8e1ff 0%, #aee9f9 100%);
             font-family: 'Press Start 2P', 'Comic Sans MS', cursive, sans-serif;
-            padding: 2em 0 1em 0;
-            margin-top: auto;
-            box-shadow: 0 -4px 24px #ffb6b9aa;
-            width: 100%;
+            padding: 2em 0 1em 0; margin-top: auto; box-shadow: 0 -4px 24px #ffb6b9aa; width: 100%;
         }
         .footer-content { max-width: 900px; margin: 0 auto; display: flex; align-items: stretch; justify-content: center; }
         .footer-contact, .footer-links { flex: 1 1 0; padding: 0 2em; display: flex; flex-direction: column; justify-content: center; }
@@ -203,30 +210,32 @@
                 <div class="menu-item" data-id="2">2. 0930|唐詩表格排版</div>
                 <div class="menu-item" data-id="3">3. 1007|風景照表格排版</div>
                 <div class="menu-item" data-id="4">4. 1014|個人名片</div>
-                <div class="menu-item" data-id="5">5. 1021|carousel/card元件</div>
-                <div class="menu-item" data-id="6">6. 1104|carousel/card元件</div>
-                <div class="menu-item" data-id="7">7. 攝影作品</div>
-                <div class="menu-item" data-id="8">8. 平面設計</div>
+                <div class="menu-item" data-id="5">5. 1021|bootstrap網站</div>
+                <div class="menu-item" data-id="6">6. 1111|carousel/card元件</div>
+                <div class="menu-item" data-id="7">7. 1118|教學科技應用設計競賽網站</div>
             </div>
 
             <div class="monitor-col">
                 <div class="monitor-frame">
                     <div class="screen">
-                        <img id="preview-img" src="https://placehold.co/800x450/fff0f6/ff7eb9?text=Project+1" alt="Website Preview">
+                        <a id="project-link-img" href="#" target="_blank">
+                            <img id="preview-img" src="https://placehold.co/800x450/fff0f6/ff7eb9?text=AI+Website" alt="Website Preview">
+                            <div class="screen-overlay">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> 點擊前往網站
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
 
             <div class="info-col">
-                <h1 id="project-title" class="info-title">0930旅遊網站</h1>
+                <h1 id="project-title" class="info-title">AI網站</h1>
                 <p id="project-desc" class="info-desc">
-                    這是本學期的期中作業，主題是介紹台灣的旅遊景點。運用了 Flexbox 進行響應式排版，並加入了簡單的輪播圖功能。
+                    這是開學後的第一個作業，利用 AI 工具生成的圖片與文案來快速建置一個簡單的網頁，初步了解 HTML 的基本結構。
                 </p>
-                <div id="project-tags" class="tech-stack">
-                    <span class="tech-tag">HTML5</span>
-                    <span class="tech-tag">CSS3</span>
-                    <span class="tech-tag">JavaScript</span>
-                </div>
+                <a id="project-link-btn" href="#" target="_blank" class="visit-btn">
+                    <i class="fa-solid fa-globe"></i> 前往網站
+                </a>
             </div>
 
         </div>
@@ -283,70 +292,68 @@
             }
         });
 
+        // ==========================================
+        //  資料庫：請替換 url, img, desc
+        // ==========================================
         const projects = [
             {
                 id: 1,
-                title: "0930旅遊網站",
-                desc: "這是本學期的期中作業，主題是介紹台灣的旅遊景點。運用了 Flexbox 進行響應式排版，並加入了簡單的輪播圖功能。",
-                tags: ["HTML5", "CSS3", "JavaScript"],
-                img: "https://placehold.co/800x450/fff0f6/ff7eb9?text=Project+1" 
+                title: "AI網站",
+                desc: "這是開學後的第一個作業，利用 AI 工具生成的圖片與文案來快速建置一個簡單的網頁，初步了解 HTML 的基本結構。",
+                img: "./image/1.png",
+                url: "./0923/index.html"
             },
             {
                 id: 2,
-                title: "1007個人履歷",
-                desc: "採用極簡風格設計的線上履歷，重點在於字體排版與閱讀體驗。使用了 Grid 系統來規劃版面，讓資訊層級分明。",
-                tags: ["UI/UX", "Typography", "CSS Grid"],
-                img: "https://placehold.co/800x450/e0f7fa/4dd0e1?text=Project+2"
+                title: "唐詩表格排版",
+                desc: "練習使用 HTML Table 標籤來製作圖文排版。",
+                img: "./image/2.png",
+                url: "./0930/index.html"
             },
             {
                 id: 3,
-                title: "1014購物商城",
-                desc: "模擬電商的首頁設計，包含商品卡片展示與購物車互動。挑戰了較複雜的 DOM 操作與事件監聽。",
-                tags: ["DOM操作", "SCSS", "RWD"],
-                img: "https://placehold.co/800x450/fff8e1/ffb74d?text=Project+3"
+                title: "風景照表格排版",
+                desc: "進階的表格應用，將多張風景照片整齊排列，並學習合併儲存格。",
+                img: "./image/3.png",
+                url: "./1007/index.html"
             },
             {
                 id: 4,
-                title: "1021後台管理",
-                desc: "一個數據儀表板介面，展示數據圖表與表格排版。練習了 CSS Variable 的應用與資料視覺化佈局。",
-                tags: ["Dashboard", "Chart.js", "Layout"],
-                img: "https://placehold.co/800x450/f3e5f5/ba68c8?text=Project+4"
+                title: "個人名片",
+                desc: "製作一張屬於自己的數位名片，包含大頭貼、聯絡資訊與社交媒體連結。",
+                img: "./image/4.png",
+                url: "./1014/index.html"
             },
             {
                 id: 5,
-                title: "1104期末專題",
-                desc: "這是一個整合性的期末專題作品，結合了前面所學的所有技術，包含 RWD、動態效果與資料串接。",
-                tags: ["Final", "Teamwork", "Fullstack"],
-                img: "https://placehold.co/800x450/e1bee7/8e24aa?text=Project+5"
+                title: "Bootstrap網站",
+                desc: "用Bootstrap網頁模板製作個人網站",
+                img: "./image/5.png",
+                url: "./1021/index.html"
             },
             {
                 id: 6,
-                title: "1111互動遊戲",
-                desc: "使用 Canvas 與 JavaScript 製作的網頁小遊戲，讓使用者可以透過鍵盤控制角色，並計算分數。",
-                tags: ["Canvas", "GameDev", "JS"],
-                img: "https://placehold.co/800x450/c8e6c9/388e3c?text=Project+6"
+                title: "Carousel/Card元件",
+                desc: "深入學習 Bootstrap 的元件，這次使用了輪播圖 (Carousel) 來展示圖片，並認識 Card 元件和Footer",
+                img: "./image/6.png",
+                url: "./1111/index.html"
             },
+           
             {
                 id: 7,
-                title: "1118",
-                desc: "利用瀑布流排版展示攝影作品，並加入 Lightbox 燈箱效果，點擊圖片可查看大圖。",
-                tags: ["Photography", "Masonry", "Lightbox"],
-                img: "https://placehold.co/800x450/ffecb3/f57c00?text=Project+7"
-            },
-            {
-                id: 8,
-                title: "平面設計",
-                desc: "展示 Photoshop 與 Illustrator 的設計作品，包含海報、Logo 與名片設計。",
-                tags: ["Graphic", "PS", "AI"],
-                img: "https://placehold.co/800x450/b3e5fc/0288d1?text=Project+8"
+                title: "教學科技應用設計競賽網站",
+                desc: "將「114教學科技應用設計競賽實施辦法.pdf」的內容設計為「一頁式網站」，並發佈到Github Page中",
+                img: "./image/7.png",
+                url: "./1118/index.html"
             }
         ];
 
         const menuItems = document.querySelectorAll('.menu-item');
         const previewImg = document.getElementById('preview-img');
+        const projectLinkImg = document.getElementById('project-link-img'); // 圖片連結
+        const projectLinkBtn = document.getElementById('project-link-btn'); // 按鈕連結
         const titleEl = document.getElementById('project-title');
         const descEl = document.getElementById('project-desc');
-        const tagsEl = document.getElementById('project-tags');
 
         menuItems.forEach((item, index) => {
             item.addEventListener('mouseover', () => {
@@ -361,14 +368,11 @@
                     previewImg.src = data.img;
                     titleEl.innerText = data.title;
                     descEl.innerText = data.desc;
-
-                    tagsEl.innerHTML = ''; 
-                    data.tags.forEach(tag => {
-                        const span = document.createElement('span');
-                        span.className = 'tech-tag';
-                        span.innerText = tag;
-                        tagsEl.appendChild(span);
-                    });
+                    
+                    // 同時更新「圖片」和「按鈕」的連結
+                    const link = data.url || "#";
+                    projectLinkImg.href = link;
+                    projectLinkBtn.href = link;
 
                     previewImg.style.opacity = 1;
                 }, 150);
